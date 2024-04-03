@@ -1,16 +1,36 @@
 import time
 
 class Train:
-    def __init__(self, name, speed):
+    def __init__(self, name, position, speed, max_speed, acceleration):
         self.name = name
+        self.position = position
         self.speed = speed
-        self.position = 0
+        self.max_speed = max_speed
+        self.acceleration = acceleration
 
-    def move(self):
-        self.position += self.speed
+    def move(self, other_trains):
+        next_position = (self.position + self.speed) % track_length
+        for train in other_trains:
+            if next_position < self.position:
+                if train is not self and train.position > self.position or train.position <= next_position:
+                    print(f"Train {self.name} will crash into Train {train.name} if it moves! Stopping...")
+                    self.speed = 0
+                    return
+            else:
+                if train is not self and train.position <= next_position and train.position >= self.position:
+                    print(f"Train {self.name} will crash into Train {train.name} if it moves! Stopping...")
+                    self.speed = 0
+                    return
+        if self.speed < self.max_speed:
+            self.accelerate(self.acceleration)
+            
+        self.position = next_position
 
     def accelerate(self, acceleration):
-        self.speed += acceleration
+        if self.speed + acceleration <= self.max_speed:
+            self.speed += acceleration
+        else:
+            self.speed = self.max_speed
 
     def decelerate(self, deceleration):
         if self.speed - deceleration >= 0:
@@ -29,30 +49,26 @@ class Track:
     def draw_track(self):
         track_visual = ['_' for _ in range(self.length)]
         for train in self.trains:
-            if 0 <= train.position < self.length:
-                track_visual[train.position] = train.name
+            track_visual[train.position] = train.name
         print(''.join(track_visual))
 
     def simulate(self, duration):
         for _ in range(duration):
             for train in self.trains:
-                train.move()
-                if train.position >= self.length:
-                    print(f"{train.name} has reached the end of the track!")
-                    self.trains.remove(train)
+                train.move(self.trains)
             self.draw_track()
             time.sleep(0.1)  # Delay for better visualization
 
 # Creating trains and track
-track_length = 20
+track_length = 40
 track = Track(track_length)
 
-train1 = Train("A", speed=2)
-train2 = Train("B", speed=3)
+train1 = Train("A", position=1, speed=1, max_speed=8, acceleration=1)
+train2 = Train("B", position=track_length // 2, speed=1, max_speed=7, acceleration=5)
 
 # Add trains to the track
 track.add_train(train1)
 track.add_train(train2)
 
-# Simulate for 50 steps
-track.simulate(20)
+# Simulate for 20 steps
+track.simulate(100)
