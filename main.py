@@ -60,11 +60,11 @@ class Track:
             time.sleep(0.1)  # Delay for better visualization
 
 # Creating trains and track
-track_length = 40
+track_length = 30
 track = Track(track_length)
 
-train1 = Train("A", position=1, speed=1, max_speed=8, acceleration=1)
-train2 = Train("B", position=track_length // 2, speed=1, max_speed=7, acceleration=5)
+train1 = Train("A", position=1, speed=1, max_speed=2, acceleration=1)
+train2 = Train("B", position=track_length // 2, speed=1, max_speed=3, acceleration=3)
 
 # Add trains to the track
 track.add_train(train1)

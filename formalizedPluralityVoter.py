@@ -21,7 +21,7 @@ def plurality_voter(votes):
 # Example usage:
 candidate_votes = {
     "Candidate A": 150,
-    "Candidate B": 200,
+    "Candidate B": 100,
     "Candidate C": 150,
     "Candidate D": 180
 }
