@@ -44,7 +44,7 @@ def weighted_average_voter(votes, scale):
     - votes: A list of integers representing the votes for each candidate.
 
     Returns:
-    - The winning candidate index (0-indexed), or None if there is a tie.
+    - The winning candidate index (1-indexed), or None if there is a tie.
     """
     weights, sum_weights = calculate_weights(votes, scale)
     return sum([vote*(weight/sum_weights) for vote, weight in zip(votes, weights)])

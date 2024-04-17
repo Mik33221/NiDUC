@@ -1,33 +1,40 @@
-def plurality_voter(votes):
-    """
-    Function to determine the winner based on a plurality vote.
+from random import randint
 
-    Parameters:
-    - votes: A dictionary where keys are candidate names and values are the number of votes each candidate received.
+def plurality_voter_sets(votes, threshold):
+    subsets = []
+    i = 0
+    while len(votes) > 0 and i < len(votes):
+        subset = [votes[i]]
+        j = i + 1
+        while j < len(votes):
+            if abs(votes[i] - votes[j]) <= threshold:
+                subset.append(votes[j])
+                votes.pop(j)
+            else:
+                j += 1
+        subsets.append(subset)
+        votes.pop(i)
+    return subsets
 
-    Returns:
-    - The winning candidate, or None if there is a tie.
-    """
+def plurality_voter(votes, threshold):
+    subsets = plurality_voter_sets(votes, threshold)
+    biggestSet = subsets[0]
+    for set in subsets:
+        if len(set) > len(biggestSet):
+            biggestSet = set
 
-    max_votes = max(votes.values())
-    winners = [candidate for candidate, vote_count in votes.items() if vote_count == max_votes]
+    subsets.remove(biggestSet)
 
-    if len(winners) == 1:
-        return winners[0]  # Return the winner if there's only one
-    else:
-        return None  # Return None if there's a tie
+    for set in subsets:
+        if len(biggestSet) <= len(set):
+            return "No output"
+    return biggestSet[randint(0, len(biggestSet) - 1)]
 
 
-# Example usage:
-candidate_votes = {
-    "Candidate A": 150,
-    "Candidate B": 100,
-    "Candidate C": 150,
-    "Candidate D": 180
-}
+print(plurality_voter_sets([0.18155, 0.18230, 0.18130, 0.18180, 0.18235], 0.0005))
+print(plurality_voter([0.18155, 0.18230, 0.18130, 0.18180, 0.18235], 0.0005))
 
-winner = plurality_voter(candidate_votes)
-if winner:
-    print(f"The winner is {winner}.")
-else:
-    print("There is a tie.")
+print(plurality_voter_sets([0.18155, 0.18230, 0.18130, 0.18180, 0.18235, 0.18233], 0.0005))
+print(plurality_voter([0.18155, 0.18230, 0.18130, 0.18180, 0.18235, 0.18233], 0.0005))
+
+##modyfikacja majority_voter, aby zawsze można było zwrócić wynik
