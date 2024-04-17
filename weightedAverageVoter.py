@@ -7,7 +7,7 @@ def weighted_average_voter(votes, weights):
     - weights: A list of integers representing the weights corresponding to each vote.
 
     Returns:
-    - The winning candidate index (0-indexed), or None if there is a tie.
+    - The winning candidate index (1-indexed), or None if there is a tie.
     """
 
     # Calculate the weighted average for each candidate
