@@ -1,34 +1,56 @@
-def weighted_average_voter(votes, weights):
+def distance(vote1, vote2):
     """
-    Function to determine the winner based on a weighted average vote.
+    Function to calculate the distance between two votes.
+
+    Parameters:
+    - vote1: An integer candidate 1.
+    - vote2: An integer candidate 2.
+
+    Returns:
+    - The distance between the two votes.
+    """
+    return abs(vote1 - vote2)
+
+def calculate_weights(votes, a):
+    """
+    Function to calculate the weights for each vote based on the distance between votes.
+
+    Parameters:
+    - votes: A list of integers representing each candidate.
+    - a: a fixed constant for scaling
+
+    Returns:
+    - A list of weights for each vote.
+    - The sum of the weights for normalisation.
+    """
+    weights = []
+
+    for i, vote in enumerate(votes):
+        product = 1
+        for j, other_vote in enumerate(votes):
+            if i != j:
+                product *= distance(vote, other_vote)/(a**2)
+        weight = (1 + product)**-1
+        weights.append(weight)
+
+    return weights, sum(weights) 
+
+def weighted_average_voter(votes, scale):
+    """
+    Function to determine the winner based on a weighted average vote. Weights are calculated based on the distance between votes, in such a way 
+    that large numbers won't have a big impact on the result.
 
     Parameters:
     - votes: A list of integers representing the votes for each candidate.
-    - weights: A list of integers representing the weights corresponding to each vote.
 
     Returns:
     - The winning candidate index (0-indexed), or None if there is a tie.
     """
-
-    # Calculate the weighted average for each candidate
-    weighted_averages = [vote * weight for vote, weight in zip(votes, weights)]
-
-    # Find the index of the candidate with the highest weighted average
-    max_average = max(weighted_averages)
-    winners = [i for i, average in enumerate(weighted_averages) if average == max_average]
-
-    if len(winners) == 1:
-        return winners[0]  # Return the index of the winning candidate
-    else:
-        return None  # Return None if there is a tie
-
+    weights, sum_weights = calculate_weights(votes, scale)
+    return sum([vote*(weight/sum_weights) for vote, weight in zip(votes, weights)])
 
 # Example usage:
-candidate_votes = [50, 40, 60, 45]
-candidate_weights = [1, 2, 1, 1]
-
-winner_index = weighted_average_voter(candidate_votes, candidate_weights)
-if winner_index is not None:
-    print(f"The winning candidate is Candidate {winner_index + 1}.")
-else:
-    print("There is a tie.")
+votes = [0.18155, 0.18230, 0.18130, 0.18180, 0.18235, 0.183]
+scale = 1
+winner = min(votes, key=lambda x: abs(x - weighted_average_voter(votes, scale)))
+print(f"The weighted average vote is {winner}.")
