@@ -1,31 +1,31 @@
-def majority_voter(votes):
+from random import random
+
+def majority_voter(votes, threshold):
     """
-    Function to determine the winner based on a majority vote.
+    Function to determine the winner based on a majority vote with a specified threshold.
 
     Parameters:
-    - votes: A list of integers representing votes for each candidate.
-             The first element represents votes for candidate A,
-             and the second element represents votes for candidate B.
+    - votes: A list of integers representing values to be voted on.
+    - threshold: A float representing the maximum difference of between values to be considered "same"
 
     Returns:
-    - The winning candidate (A or B), or None if there is no majority.
+    - The winning value.
     """
+    subsets = []
+    i = 0
+    while len(votes) > 0 and i < len(votes):
+        subset = [votes[i]]
+        j = i + 1
+        while j < len(votes):
+            if abs(votes[i] - votes[j]) <= threshold:
+                subset.append(votes[j])
+                votes.pop(j)
+            else:
+                j += 1
+        subsets.append(subset)
+        votes.pop(i)
+    return subsets    
 
-    total_votes = sum(votes)
-    threshold = total_votes / 2
+print(majority_voter([0.18155, 0.18230, 0.18130, 0.18180, 0.18235], 0.0005)) 
+##kolejność danych ma wpływ na wynik, do zapytania.
 
-    if votes[0] > threshold:
-        return 'Candidate A'
-    elif votes[1] > threshold:
-        return 'Candidate B'
-    else:
-        return None
-
-candidate_A_votes = 60
-candidate_B_votes = 80
-
-winner = majority_voter([candidate_A_votes, candidate_B_votes])
-if winner:
-    print(f"The winner is {winner}.")
-else:
-    print("There is no majority winner.")
