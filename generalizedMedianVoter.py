@@ -1,32 +1,49 @@
-def median_voter(preferences):
+def compute_distance_matrix(outputs):
     """
-    Function to determine the median voter based on a list of preferences.
+    Compute the distance matrix for a given set of outputs.
 
     Parameters:
-    - preferences: A list of integers representing the preferences of voters.
+    - outputs: List of outputs
 
     Returns:
-    - The median voter's preference.
+    - dist_matrix: 2D list representing the distance matrix
     """
+    num_outputs = len(outputs)
+    dist_matrix = [[0] * num_outputs for _ in range(num_outputs)]
+    for i in range(num_outputs):
+        for j in range(i + 1, num_outputs):
+            dist_matrix[i][j] = abs(outputs[i] - outputs[j])
+            dist_matrix[j][i] = dist_matrix[i][j]  # Distance matrix is symmetric
+    return dist_matrix
 
-    sorted_preferences = sorted(preferences)
-    num_voters = len(sorted_preferences)
 
-    if num_voters % 2 == 0:
-        # If there's an even number of voters, take the average of the two middle preferences
-        median_index = num_voters // 2
-        median_preference = (sorted_preferences[median_index - 1] + sorted_preferences[median_index]) / 2
-    else:
-        # If there's an odd number of voters, simply take the middle preference
-        median_index = num_voters // 2
-        median_preference = sorted_preferences[median_index]
+def generalized_median_voter(outputs):
+    """
+    Generalized median voter algorithm to select the median output from a set of outputs.
 
-    return median_preference
+    Parameters:
+    - outputs: List of outputs
 
-voter_preferences = [3, 7, 2, 5, 9, 4, 8, 6, 1]
-median = median_voter(voter_preferences)
-print(f"The median voter's preference is {median}.")
+    Returns:
+    - median_output: The median output
+    """
+    while len(outputs) > 1:
+        dist_matrix = compute_distance_matrix(outputs)
+        max_distance = max(max(row) for row in dist_matrix)
+        max_indices = [(i, j) for i, row in enumerate(dist_matrix) for j, val in enumerate(row) if val == max_distance]
+        x_idx, y_idx = max_indices[0]
+        x, y = outputs[x_idx], outputs[y_idx]
 
-voter_preferences = [1,1,100,2,2]
-median = median_voter(voter_preferences)
-print(f"The median voter's preference is {median}.")
+        current_median = sum(outputs) / len(outputs)
+        if abs(x - current_median) < abs(y - current_median):
+            outputs.remove(y)
+        else:
+            outputs.remove(x)
+    return outputs[0]
+
+
+# Example usage:
+outputs = [2,2,2,3,3]
+median_output = generalized_median_voter(outputs)
+print("Median output:", median_output)
+#Algorytm generuje zly output dla n % 2 == 0 :)
