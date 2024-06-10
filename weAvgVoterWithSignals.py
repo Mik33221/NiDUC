@@ -2,63 +2,57 @@ import numpy as np
 import matplotlib.pyplot as plt
 from random import randint
 
-def majority_voter_sets(votes, threshold):
+def distance(vote1, vote2):
     """
-    Function to determine the winner based on a majority vote with a specified threshold.
+    Function to calculate the distance between two votes.
 
     Parameters:
-    - votes: A list of integers representing values to be voted on.
-    - threshold: A float representing the maximum difference of between values to be considered "same"
+    - vote1: An integer candidate 1.
+    - vote2: An integer candidate 2.
 
     Returns:
-    - subsets: A list of subsets of votes grouped by the threshold
+    - The distance between the two votes.
     """
-    subsets = []
-    i = 0
-    while len(votes) > 0 and i < len(votes):
-        subset = [votes[i]]
-        j = i + 1
-        while j < len(votes):
-            if abs(votes[i] - votes[j]) <= threshold:
-                subset.append(votes[j])
-                votes.pop(j)
-            else:
-                j += 1
-        subsets.append(subset)
-        votes.pop(i)
-    return subsets
+    return abs(vote1 - vote2)
 
-def majority_voter(votes, threshold):
+def calculate_weights(votes, a):
     """
-    Function to determine the winner based on a majority vote with a specified threshold.
+    Function to calculate the weights for each vote based on the distance between votes.
 
     Parameters:
-    - votes: A list of integers representing values to be voted on.
-    - threshold: A float representing the maximum difference of between values to be considered "same"
+    - votes: A list of integers representing each candidate.
+    - a: a fixed constant for scaling
 
     Returns:
-    - The winning value or None if no majority is found.
+    - A list of weights for each vote.
+    - The sum of the weights for normalisation.
     """
-    N = len(votes)
-    subsets = majority_voter_sets(votes, threshold)
-    if not subsets:  # Check if subsets is empty
-        return -1
+    weights = []
 
-    biggestSet = subsets[0]
-    for set in subsets:
-        if len(set) > len(biggestSet):
-            biggestSet = set
+    for i, vote in enumerate(votes):
+        product = 1
+        for j, other_vote in enumerate(votes):
+            if i != j:
+                product *= distance(vote, other_vote)/(a**2)
+        weight = (1 + product)**-1
+        weights.append(weight)
 
-    if len(biggestSet) < (N + 1) / 2:
-        return -1
+    return weights, sum(weights)
 
-    subsets.remove(biggestSet)
+def weighted_average_voter(votes, scale):
+    """
+    Function to determine the winner based on a weighted average vote. Weights are calculated based on the distance between votes, in such a way
+    that large numbers won't have a big impact on the result.
 
-    for set in subsets:
-        if len(biggestSet) <= len(set):
-            return 0
+    Parameters:
+    - votes: A list of integers representing the votes for each candidate.
 
-    return biggestSet[randint(0, len(biggestSet) - 1)]
+    Returns:
+    - The winning candidate index (1-indexed), or None if there is a tie.
+    """
+    weights, sum_weights = calculate_weights(votes, scale)
+    return sum([vote*(weight/sum_weights) for vote, weight in zip(votes, weights)])
+
 
 # Funkcje do generowania sygnałów
 
@@ -96,7 +90,7 @@ output_signal = []
 
 for i in range(len(signal)):
     votes = [signal1[i], signal2[i], signal3[i]]
-    result = majority_voter(votes, threshold)
+    result = weighted_average_voter(votes, threshold)
     if result is None:
         # Jeśli nie ma wyniku, użyj średniej jako wartość domyślną
         result = np.mean(votes)
