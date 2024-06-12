@@ -22,12 +22,6 @@ def plurality_voter(votes, threshold):
     for set in subsets:
         if len(set) > len(biggestSet):
             biggestSet = set
-
-    subsets.remove(biggestSet)
-
-    for set in subsets:
-        if len(biggestSet) <= len(set):
-            return "No output"
     return biggestSet[randint(0, len(biggestSet) - 1)]
 
 ##modyfikacja majority_voter, aby zawsze można było zwrócić wynik

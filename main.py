@@ -16,16 +16,16 @@ sampling_rate = 500  # Częstotliwość próbkowania w Hz
 t, signal = generate_sinusoidal_signal(frequency, amplitude, duration, sampling_rate)
 
 # Podział sygnału na trzy części i dodanie szumu
-noise_level1 = 0
-noise_level2 = 0.1
-noise_level3 = 0.2
+noise_level1 = 0.1
+noise_level2 = 0.2
+noise_level3 = 0.4
 
 signal1 = add_noise(signal, noise_level1)
 signal2 = add_noise(signal, noise_level2)
 signal3 = add_noise(signal, noise_level3)
 
 # Przepuszczenie sygnałów przez algorytmy głosujące punkt po punkcie
-treshold = 0.05
+treshold = 0.0005
 output_majority = []
 output_plurality = []
 output_median = []
@@ -33,7 +33,7 @@ output_weighted = []
 
 for i in range(len(signal)):
     votes = [signal1[i], signal2[i], signal3[i]]
-    result = majority_voter(votes, treshold)
+    result = majority_voter(votes, 0.05)
     output_majority.append(result)
 
 for i in range(len(signal)):
