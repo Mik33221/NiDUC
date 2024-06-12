@@ -3,13 +3,12 @@ from formalizedPluralityVoter import plurality_voter
 from generalizedMedianVoter import generalized_median_voter
 from weightedAverageVoter import weighted_average_voter
 from signal import *
-import numpy as np
 import matplotlib.pyplot as plt
 
 # Parametry sygnału
-frequency = 5  # Hz
+frequency = 2  # Hz
 amplitude = 1  # Amplituda
-duration = 2   # Czas trwania w sekundach
+duration = 1   # Czas trwania w sekundach
 sampling_rate = 500  # Częstotliwość próbkowania w Hz
 
 # Generowanie sygnału sinusoidalnego
@@ -54,35 +53,35 @@ for i in range(len(signal)):
 # Wyświetlenie sygnałów
 plt.figure(figsize=(12, 10))
 
-plt.subplot(8, 1, 1)
+plt.subplot(4, 2, 1)
 plt.plot(t, signal, label="Oryginalny sygnał")
 plt.legend()
 
-plt.subplot(8, 1, 2)
+plt.subplot(4, 2, 3)
 plt.plot(t, signal1, label="Sygnał z szumem 1")
 plt.legend()
 
-plt.subplot(8, 1, 3)
+plt.subplot(4, 2, 5)
 plt.plot(t, signal2, label="Sygnał z szumem 2")
 plt.legend()
 
-plt.subplot(8, 1, 4)
+plt.subplot(4, 2, 7)
 plt.plot(t, signal3, label="Sygnał z szumem 3")
 plt.legend()
 
-plt.subplot(8, 1, 5)
+plt.subplot(4, 2, 2)
 plt.plot(t, output_majority, label="Sygnał po głosowaniu większościowym")
 plt.legend()
 
-plt.subplot(8, 1, 6)
+plt.subplot(4, 2, 4)
 plt.plot(t, output_plurality, label="Sygnał po głosowaniu licznościowym")
 plt.legend()
 
-plt.subplot(8, 1, 7)
+plt.subplot(4, 2, 6)
 plt.plot(t, output_median, label="Sygnał po głosowaniu medianą")
 plt.legend()
 
-plt.subplot(8, 1, 8)
+plt.subplot(4, 2, 8)
 plt.plot(t, output_weighted, label="Sygnał po głosowaniu wagowym")
 plt.legend()
 
