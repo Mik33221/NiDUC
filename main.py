@@ -2,7 +2,7 @@ from majorityVoter import majority_voter
 from formalizedPluralityVoter import plurality_voter
 from generalizedMedianVoter import generalized_median_voter
 from weightedAverageVoter import weighted_average_voter
-from signal import *
+from mysignal import generate_sinusoidal_signal, add_noise
 import matplotlib.pyplot as plt
 
 # Parametry sygnału
