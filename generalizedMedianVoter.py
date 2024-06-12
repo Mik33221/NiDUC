@@ -40,10 +40,3 @@ def generalized_median_voter(outputs):
         else:
             outputs.remove(x)
     return outputs[0]
-
-
-# Example usage:
-outputs = [2,2,2,3,3]
-median_output = generalized_median_voter(outputs)
-print("Median output:", median_output)
-#Algorytm generuje zly output dla n % 2 == 0 :)

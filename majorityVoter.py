@@ -44,11 +44,3 @@ def majority_voter(votes, threshold):
             return "No output"
 
     return biggestSet[randint(0, len(biggestSet) - 1)]
-
-print(majority_voter_sets([0.18155, 0.18230, 0.18130, 0.18180, 0.18235], 0.0005))
-print(majority_voter([0.18155, 0.18230, 0.18130, 0.18180, 0.18235], 0.0005))
-
-print(majority_voter_sets([0.18155, 0.18230, 0.18130, 0.18180, 0.18235, 1, 2, 3, 4], 0.0005))
-print(majority_voter([0.18155, 0.18230, 0.18130, 0.18180, 0.18235, 1, 2, 3, 4], 0.0005))
-##kolejność danych ma wpływ na wynik, do zapytania.
-

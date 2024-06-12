@@ -30,11 +30,4 @@ def plurality_voter(votes, threshold):
             return "No output"
     return biggestSet[randint(0, len(biggestSet) - 1)]
 
-
-print(plurality_voter_sets([0.18155, 0.18230, 0.18130, 0.18180, 0.18235], 0.0005))
-print(plurality_voter([0.18155, 0.18230, 0.18130, 0.18180, 0.18235], 0.0005))
-
-print(plurality_voter_sets([0.18155, 0.18230, 0.18130, 0.18180, 0.18235, 0.18233], 0.0005))
-print(plurality_voter([0.18155, 0.18230, 0.18130, 0.18180, 0.18235, 0.18233], 0.0005))
-
 ##modyfikacja majority_voter, aby zawsze można było zwrócić wynik
