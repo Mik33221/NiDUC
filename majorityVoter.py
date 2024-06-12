@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from random import randint
 
 def majority_voter_sets(votes, threshold):
@@ -40,7 +41,7 @@ def majority_voter(votes, threshold):
     N = len(votes)
     subsets = majority_voter_sets(votes, threshold)
     if not subsets:  # Check if subsets is empty
-        return -1
+        return
 
     biggestSet = subsets[0]
     for set in subsets:
@@ -48,13 +49,13 @@ def majority_voter(votes, threshold):
             biggestSet = set
 
     if len(biggestSet) < (N + 1) / 2:
-        return -1
+        return
 
     subsets.remove(biggestSet)
 
     for set in subsets:
         if len(biggestSet) <= len(set):
-            return 0
+            return
 
     return biggestSet[randint(0, len(biggestSet) - 1)]
 
