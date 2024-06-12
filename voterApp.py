@@ -1,4 +1,3 @@
-import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import tkinter as tk
@@ -7,7 +6,7 @@ from majorityVoter import majority_voter
 from formalizedPluralityVoter import plurality_voter
 from generalizedMedianVoter import generalized_median_voter
 from weightedAverageVoter import weighted_average_voter
-from signal import *
+from mysignal import *
 
 # GUI application
 class SignalSimulator(tk.Tk):
@@ -40,7 +39,7 @@ class SignalSimulator(tk.Tk):
         self.create_slider(params_frame, "Noise Level 1", 0.0, 1.0, self.noise_level1, self.set_noise_level1)
         self.create_slider(params_frame, "Noise Level 2", 0.0, 1.0, self.noise_level2, self.set_noise_level2)
         self.create_slider(params_frame, "Noise Level 3", 0.0, 1.0, self.noise_level3, self.set_noise_level3)
-        self.create_slider(params_frame, "Threshold", 0.0001, 0.01, self.threshold, self.set_threshold)
+        self.create_slider(params_frame, "Threshold", 0.01, 0.2, self.threshold, self.set_threshold)
         self.create_slider(params_frame, "Scale", 0.1, 5.0, self.scale, self.set_scale)
 
         # Dropdown menu for voting algorithm selection
