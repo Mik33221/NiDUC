@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from random import randint
 
 def majority_voter_sets(votes, threshold):
@@ -9,7 +10,7 @@ def majority_voter_sets(votes, threshold):
     - threshold: A float representing the maximum difference of between values to be considered "same"
 
     Returns:
-    - The winning value.
+    - subsets: A list of subsets of votes grouped by the threshold
     """
     subsets = []
     i = 0
@@ -24,31 +25,37 @@ def majority_voter_sets(votes, threshold):
                 j += 1
         subsets.append(subset)
         votes.pop(i)
-    return subsets    
+    return subsets
 
 def majority_voter(votes, threshold):
+    """
+    Function to determine the winner based on a majority vote with a specified threshold.
+
+    Parameters:
+    - votes: A list of integers representing values to be voted on.
+    - threshold: A float representing the maximum difference of between values to be considered "same"
+
+    Returns:
+    - The winning value or None if no majority is found.
+    """
     N = len(votes)
     subsets = majority_voter_sets(votes, threshold)
+    if not subsets:  # Check if subsets is empty
+        return
+
     biggestSet = subsets[0]
     for set in subsets:
         if len(set) > len(biggestSet):
             biggestSet = set
 
     if len(biggestSet) < (N + 1) / 2:
-        return "No output"
+        return
 
     subsets.remove(biggestSet)
 
     for set in subsets:
         if len(biggestSet) <= len(set):
-            return "No output"
+            return
 
     return biggestSet[randint(0, len(biggestSet) - 1)]
-
-print(majority_voter_sets([0.18155, 0.18230, 0.18130, 0.18180, 0.18235], 0.0005))
-print(majority_voter([0.18155, 0.18230, 0.18130, 0.18180, 0.18235], 0.0005))
-
-print(majority_voter_sets([0.18155, 0.18230, 0.18130, 0.18180, 0.18235, 1, 2, 3, 4], 0.0005))
-print(majority_voter([0.18155, 0.18230, 0.18130, 0.18180, 0.18235, 1, 2, 3, 4], 0.0005))
-##kolejność danych ma wpływ na wynik, do zapytania.
 

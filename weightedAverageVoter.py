@@ -48,9 +48,3 @@ def weighted_average_voter(votes, scale):
     """
     weights, sum_weights = calculate_weights(votes, scale)
     return sum([vote*(weight/sum_weights) for vote, weight in zip(votes, weights)])
-
-# Example usage:
-votes = [0.18155, 0.18230, 0.18130, 0.18180, 0.18235, 0.183]
-scale = 1
-winner = min(votes, key=lambda x: abs(x - weighted_average_voter(votes, scale)))
-print(f"The weighted average vote is {winner}.")
