@@ -23,7 +23,7 @@ class SignalSimulator(tk.Tk):
         self.noise_level2 = 0.1
         self.noise_level3 = 0.1
         self.threshold = 0.05
-        self.scale = 1
+        self.scale = 0.5
         self.voter_algorithm = 'Majority Voter'
 
         self.init_ui()
@@ -36,11 +36,11 @@ class SignalSimulator(tk.Tk):
         self.create_slider(params_frame, "Amplitude", 0.1, 5.0, self.amplitude, self.set_amplitude)
         self.create_slider(params_frame, "Duration (s)", 0.1, 5.0, self.duration, self.set_duration)
         self.create_slider(params_frame, "Sampling Rate (Hz)", 100, 2000, self.sampling_rate, self.set_sampling_rate)
-        self.create_slider(params_frame, "Noise Level 1", 0.0, 1.0, self.noise_level1, self.set_noise_level1)
-        self.create_slider(params_frame, "Noise Level 2", 0.0, 1.0, self.noise_level2, self.set_noise_level2)
-        self.create_slider(params_frame, "Noise Level 3", 0.0, 1.0, self.noise_level3, self.set_noise_level3)
+        self.create_slider(params_frame, "Noise Level 1", 0.0, 0.25, self.noise_level1, self.set_noise_level1)
+        self.create_slider(params_frame, "Noise Level 2", 0.0, 0.25, self.noise_level2, self.set_noise_level2)
+        self.create_slider(params_frame, "Noise Level 3", 0.0, 0.25, self.noise_level3, self.set_noise_level3)
         self.create_slider(params_frame, "Threshold", 0.01, 0.2, self.threshold, self.set_threshold)
-        self.create_slider(params_frame, "Scale", 0.1, 5.0, self.scale, self.set_scale)
+        self.create_slider(params_frame, "Scale", 0.1, 1.0, self.scale, self.set_scale)
 
         # Dropdown menu for voting algorithm selection
         algo_label = ttk.Label(params_frame, text="Voting Algorithm")
